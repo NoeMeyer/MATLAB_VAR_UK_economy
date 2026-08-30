@@ -1,0 +1,25 @@
+# ---- macOS ----
+.DS_Store
+
+# ---- MATLAB ----
+*.asv
+*.m~
+slprj/
+*.mex*
+
+# ---- Dynare generated output ----
+# Keep the source NK_model.mod; ignore everything Dynare regenerates from it.
++NK_model/
+NK_model/
+*.log
+Output/
+*_results.mat
+*.eps
+model/bytecode/
+
+# ---- Large / regenerable results (optional) ----
+# Uncomment to stop versioning the exported figures:
+# Results/
+
+# FUSE mount artifacts
+.fuse_hidden*

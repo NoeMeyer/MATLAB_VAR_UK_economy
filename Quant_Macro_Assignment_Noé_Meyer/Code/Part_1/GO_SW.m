@@ -94,7 +94,7 @@ pause;
 VARopt.nsteps  = 24;
 VARopt.ident   = 'oir';
 VARopt.impact  = 1;     % 0 = 1 std shock / 1 = unit shock
-VARopt.pctg    = 100/3; % Lower bound = (100-pctg)/2 / Upper bound = 100 - (100-pctg)/2
+VARopt.pctg    = 66; % Lower bound = (100-pctg)/2 / Upper bound = 100 - (100-pctg)/2
 % Compute IRF
 [IRF, VAR] = VARir(VAR,VARopt);
 % Compute error bands
