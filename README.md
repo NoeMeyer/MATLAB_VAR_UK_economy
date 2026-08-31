@@ -9,8 +9,8 @@ Estimating the effect of an interest-rate shock on UK output, inflation, and une
 
 The project quantifies how a surprise change in the Bank of England's policy rate propagates through the UK economy, using two complementary approaches:
 
-- **Part 1 — Empirical.** A Structural VAR (SVAR) estimated on UK quarterly data (1975–2025) for output, inflation, unemployment, and the Bank Rate. The monetary policy shock is identified with a recursive (Cholesky) ordering, and its effects are traced through impulse-response functions, forecast-error-variance decompositions, and historical decompositions.
-- **Part 2 — Theoretical.** A three-equation New Keynesian DSGE model (IS curve, Phillips curve, Taylor rule) built and solved in Dynare, producing the model-implied response to an interest-rate shock as a benchmark for the empirical estimates.
+- **Part 1 : Empirical.** A Structural VAR (SVAR) estimated on UK quarterly data (1975-2025) for output, inflation, unemployment, and the Bank Rate. The monetary policy shock is identified with a recursive (Cholesky) ordering, and its effects are traced through impulse-response functions, forecast-error-variance decompositions, and historical decompositions.
+- **Part 2 : Theoretical.** A three-equation New Keynesian DSGE model (IS curve, Phillips curve, Taylor rule) built and solved in Dynare, producing the model-implied response to an interest-rate shock as a benchmark for the empirical estimates.
 
 ## Methodology
 
@@ -23,10 +23,10 @@ The project quantifies how a surprise change in the Bank of England's policy rat
 
 A contractionary interest-rate shock produces the responses standard theory predicts:
 
-- **Output** declines, reaching its trough roughly 1–2 years after the shock, then recovers.
+- **Output** declines, reaching its trough roughly 1-2 years after the shock, then recovers.
 - **Unemployment** rises, peaking around 2 years out — a clear lagged labour-market response.
 - **Inflation** eases over the medium term (after a small short-run "price puzzle").
-- Effects dissipate within about 4–6 years as the economy returns to trend.
+- Effects dissipate within about 4-6 years as the economy returns to trend.
 
 The New Keynesian model reproduces the same qualitative dynamics (output and inflation both fall after a rate rise), confirming the empirical results align with mainstream theory.
 
@@ -51,7 +51,7 @@ Quant_Macro_Assignment/
 
 ## Data
 
-UK quarterly series, 1975Q1–2025Q2 (`Code/Part_1/CombinedData.xlsx`):
+UK quarterly series, 1975Q1-2025Q2 (`Code/Part_1/CombinedData.xlsx`):
 
 | Variable | Source |
 |---|---|
