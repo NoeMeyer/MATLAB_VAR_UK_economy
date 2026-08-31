@@ -1,82 +1,77 @@
-# Monetary Policy Shocks and the UK Economy — VAR & New Keynesian Analysis
+# UK Monetary Policy: SVAR & New Keynesian Analysis
 
-Quantitative Macroeconomics assignment (HEC Lausanne, BSc in Economics, 3rd year).
-It estimates the impact of an interest-rate (monetary policy) shock on **output,
-inflation and unemployment** in the United Kingdom and compares the empirical
-evidence with the predictions of a small New Keynesian model.
+Estimating the effect of an interest-rate shock on UK output, inflation, and unemployment — measured empirically from 50 years of data and benchmarked against a theoretical model.
 
-**Part 1 — Empirical (SVAR).** A structural VAR is estimated on UK quarterly data to
-simulate the impulse responses of UK macroeconomic series, using a modified version
-of Ambrogio Cesa-Bianchi's VAR Toolbox. A monetary policy shock is identified with a
-recursive (Cholesky) ordering in which the policy rate is ordered last, and impulse
-responses, forecast-error-variance decompositions and historical decompositions are
-computed.
+**Author:** Noé Meyer — Quantitative Macroeconomics, HEC Lausanne (BSc Economics)
+**Stack:** MATLAB · Dynare · Structural VAR · New Keynesian (DSGE) modelling
 
-**Part 2 — Theoretical (New Keynesian model).** A standard three-equation New
-Keynesian model (dynamic IS curve, New Keynesian Phillips curve, Taylor rule) is
-solved and simulated in Dynare to obtain the theoretical impulse responses to an
-interest-rate shock, which are then contrasted with the empirical VAR responses.
+## Overview
 
-## Data
+The project quantifies how a surprise change in the Bank of England's policy rate propagates through the UK economy, using two complementary approaches:
 
-`Code/Part_1/CombinedData.xlsx` (sheet `Feuil1`), UK quarterly series 1975Q1–2025Q2:
+- **Part 1 — Empirical.** A Structural VAR (SVAR) estimated on UK quarterly data (1975–2025) for output, inflation, unemployment, and the Bank Rate. The monetary policy shock is identified with a recursive (Cholesky) ordering, and its effects are traced through impulse-response functions, forecast-error-variance decompositions, and historical decompositions.
+- **Part 2 — Theoretical.** A three-equation New Keynesian DSGE model (IS curve, Phillips curve, Taylor rule) built and solved in Dynare, producing the model-implied response to an interest-rate shock as a benchmark for the empirical estimates.
 
-| Column | Series | Source | Transformation used in the VAR |
-|---|---|---|---|
-| GDP | Real output | Office for National Statistics (2025) | log, then one-sided HP filter (lambda = 1600), x100 |
-| Deflator | GDP deflator (price index) | Office for National Statistics (2025) | 400 x first difference of logs -> annualised inflation |
-| Unemployment | Unemployment rate (%) | Office for National Statistics (2025) | log, then one-sided HP filter (lambda = 1600), x100 |
-| Interest Rate | Nominal Bank Rate (%) | Bank of England Database (2025) | none (level) |
+## Methodology
 
-## Repository layout
+- Assembled and transformed UK quarterly macro data: log-levels, a one-sided HP filter for the output and unemployment gaps, and log-differencing for inflation.
+- Estimated a 4-variable reduced-form VAR (4 lags) and recovered structural shocks via Cholesky identification, with the policy rate ordered last (standard recursive monetary-policy identification).
+- Computed impulse responses over a 24-quarter horizon with 66% bootstrap confidence bands.
+- Calibrated and solved the New Keynesian model in Dynare, then compared its impulse responses to the empirical ones.
+
+## Results
+
+A contractionary interest-rate shock produces the responses standard theory predicts:
+
+- **Output** declines, reaching its trough roughly 1–2 years after the shock, then recovers.
+- **Unemployment** rises, peaking around 2 years out — a clear lagged labour-market response.
+- **Inflation** eases over the medium term (after a small short-run "price puzzle").
+- Effects dissipate within about 4–6 years as the economy returns to trend.
+
+The New Keynesian model reproduces the same qualitative dynamics (output and inflation both fall after a rate rise), confirming the empirical results align with mainstream theory.
+
+![Estimated impulse responses of the UK economy. The bottom row is the interest-rate (Bank Rate) shock: output dips, unemployment rises to a peak near two years, and inflation cools. Dashed lines are 66% confidence bands.](Quant_Macro_Assignment_No%C3%A9_Meyer/Results/MyImpulseResponse.png)
+
+*Columns are variables (GDP, inflation, unemployment, Bank Rate); rows are shocks. The bottom row — the interest-rate shock — is the focus of the study.*
+
+## Tech & skills
+
+Structural VAR estimation · shock identification (Cholesky) · impulse-response / FEVD / historical decomposition · New Keynesian DSGE modelling in Dynare · macro data processing (detrending, HP filtering, stationarity) · MATLAB.
+
+## Repository structure
 
 ```
 Quant_Macro_Assignment/
 ├── Code/
-│   ├── Part_1/                     Empirical VAR
-│   │   ├── GO_SW.m                 Main script: 4-variable VAR + monetary policy IRFs
-│   │   ├── GO_BQ.m                 Blanchard–Quah long-run identification (variant)
-│   │   ├── one_sided_hp_filter_serial.m   Real-time (one-sided) HP filter
-│   │   └── CombinedData.xlsx       Input data
-│   ├── Part_2/
-│   │   └── Dynare_Files/
-│   │       └── NK_model.mod        New Keynesian model (Dynare source)
-│   ├── VAR/  Stats/  Utils/  Figure/  Auxiliary/  ExportFig/
-│   │                               VAR Toolbox 2.0 (A. Cesa-Bianchi) + helpers
-└── Results/                        Exported figures (IRFs, etc.)
+│   ├── Part_1/   Empirical SVAR — main script GO_SW.m + input data
+│   ├── Part_2/   New Keynesian model — NK_model.mod (Dynare)
+│   └── VAR/ Stats/ Utils/ ...   Supporting econometrics routines
+└── Results/      Output figures (impulse responses, etc.)
 ```
 
-## Requirements
+## Data
 
-- MATLAB (Statistics/Econometrics toolboxes; `hpfilter` is used when available,
-  with a built-in fallback).
-- [Dynare](https://www.dynare.org/) (tested with version 6.5) for Part 2.
-- The bundled **VAR Toolbox 2.0** by Ambrogio Cesa-Bianchi
-  (https://sites.google.com/site/ambropo/MatlabCodes) — a modified version is
-  included under `Code/`.
+UK quarterly series, 1975Q1–2025Q2 (`Code/Part_1/CombinedData.xlsx`):
 
-## How to run
+| Variable | Source |
+|---|---|
+| Output (GDP) | Office for National Statistics (2025) |
+| Inflation (GDP deflator) | Office for National Statistics (2025) |
+| Unemployment rate | Office for National Statistics (2025) |
+| Nominal interest rate (Bank Rate) | Bank of England Database (2025) |
 
-**Part 1 (VAR):** open MATLAB in `Code/Part_1`, then run
+## Running it
+
+Empirical VAR (MATLAB) — open `Code/Part_1` and run:
 ```matlab
-GO_SW      % main monetary-policy VAR and impulse responses
+GO_SW
 ```
 
-**Part 2 (New Keynesian model):** from the Dynare folder run
+New Keynesian model (Dynare) — from `Code/Part_2/Dynare_Files` run:
 ```matlab
 dynare NK_model.mod
 ```
-which produces the theoretical impulse responses to the `e_u` (interest-rate) and
-`e_r` (natural-rate) shocks.
-
-## Data sources
-
-- Output, inflation (GDP deflator) and unemployment: Office for National Statistics (2025).
-- Nominal interest rate (Bank Rate): Bank of England Database (2025).
 
 ## Credits
 
-VAR estimation, identification and plotting routines are from the **VAR Toolbox 2.0**
-by Ambrogio Cesa-Bianchi (BSD-licensed), included here (modified) for reproducibility.
-All project-specific code (`GO_SW.m`, `GO_BQ.m`, `one_sided_hp_filter_serial.m`,
-`NK_model.mod`) is by Noé Meyer.
+VAR estimation and plotting routines build on a modified version of the **VAR Toolbox** by Ambrogio Cesa-Bianchi (BSD-licensed). All project-specific modelling and analysis code is by Noé Meyer.
